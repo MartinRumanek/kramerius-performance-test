@@ -24,6 +24,11 @@ object CPKWget {
           .check(status.is(200)));
 }
 
+object Collections {
+        val get = exec(http("collection")
+          .get("/search/api/v5.0/vc").check(status.is(200)));
+}
+
 
 class RecordedSimulation extends Simulation {
 
@@ -32,7 +37,7 @@ class RecordedSimulation extends Simulation {
 		.inferHtmlResources()
 
 
-	val scn = scenario("RecordedSimulation").exec(Newest.newest, NewestAudios.newest, CPKWget.get)
+	val scn = scenario("RecordedSimulation").exec(Newest.newest, NewestAudios.newest, CPKWget.get, Collections.get)
 
-	setUp(scn.inject(rampUsers(1500) over (15 seconds))).protocols(httpProtocol)
+	setUp(scn.inject(rampUsers(500) over (15 seconds))).protocols(httpProtocol)
 }
